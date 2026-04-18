@@ -1,118 +1,112 @@
-# ComplaintLedger — Blockchain Complaint DApp
+# ComplaintLedger — Backend API
 
 ## 📌 Overview
 
-ComplaintLedger is a decentralized application (DApp) that enables citizens to submit complaints securely on the Ethereum blockchain. The system ensures transparency, immutability, and accountability by storing complaint records permanently on-chain.
+This is the backend service for the ComplaintLedger DApp. It acts as a bridge between the React frontend and the Ethereum smart contract using Ethers.js.
 
-Users can track complaint status, while authorities can manage and resolve them through a structured workflow.
+The API handles complaint submission, retrieval, and integrates with IPFS (via Pinata) for storing file attachments off-chain.
 
 ---
 
 ## 🚀 Features
 
-* 📝 Submit complaints using MetaMask
-* 🔐 Tamper-proof storage on blockchain
-* 🆔 Unique complaint ID for tracking
-* 📊 Status tracking system
-* 👨‍💼 Admin dashboard for authorities
-* 📎 File attachments using IPFS (via Pinata)
+* 🔗 Interacts with Ethereum smart contract (Sepolia testnet)
+* 📝 Submit complaints on-chain
+* 📊 Fetch complaint details and list
+* 🔐 Wallet-based authentication (signature verification)
+* 📎 File uploads using IPFS (Pinata)
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Frontend**
-
-* React.js
-* MetaMask
-
-**Backend**
-
-* Node.js
-* Express.js
-* Ethers.js
-
-**Blockchain**
-
-* Solidity (Smart Contracts)
-* Ethereum (Sepolia Testnet)
-
-**Storage**
-
-* IPFS (via Pinata)
-
----
-
-## ⚙️ How It Works
-
-1. User connects MetaMask wallet
-2. Submits complaint through frontend
-3. Complaint is stored on Ethereum blockchain
-4. Unique complaint ID is generated
-5. Authorities manage complaints via dashboard
-6. Status flow:
-
-   ```
-   Pending → Under Review → Resolved
-   ```
+* **Node.js + Express** — REST API server
+* **Ethers.js** — Smart contract interaction
+* **Multer** — File upload handling
+* **Pinata (IPFS)** — Decentralized file storage
+* **dotenv** — Environment variable management
 
 ---
 
 ## 📂 Project Structure
 
-```
-blockchain-complaint-system/
-│── complaint-dapp/        # React frontend
-│── complaint-backend/     # Node.js backend API
-│── contracts/             # Solidity smart contracts
+
+complaint-backend/
+├── index.js                   # Express entry point
+├── .env                       # Environment variables (DO NOT COMMIT)
+├── routes/
+│   ├── submit.js              # POST /submit
+│   ├── status.js              # GET /status/:id
+│   └── list.js                # GET /list
+├── middleware/
+│   └── auth.js                # Wallet signature verification
+├── services/
+│   ├── contract.js            # Ethers.js contract connection
+│   └── ipfs.js                # Pinata IPFS upload
+├── abi/
+│   └── ComplaintRegistry.json # Contract ABI
 ```
 
 ---
 
-## ▶️ Getting Started
+## 🔌 API Endpoints
 
-### 1. Clone the repo
+| Method | Route         | Description                      |
+| ------ | ------------- | -------------------------------- |
+| POST   | `/submit`     | Submit a complaint to blockchain |
+| GET    | `/status/:id` | Get complaint by ID              |
+| GET    | `/list`       | Get all complaints               |
 
-```
-git clone https://github.com/harshinisapare/blockchain-complaint-system.git
-cd blockchain-complaint-system
-```
+---
 
-### 2. Install dependencies
+## ⚙️ Setup & Installation
 
-```
-cd complaint-backend
-npm install
-
-cd ../complaint-dapp
+### 1. Install dependencies
 npm install
 ```
 
-### 3. Run the project
+### 2. Create `.env` file
 
-Backend:
 
-```
-npm start
+PRIVATE_KEY=0xyour_wallet_private_key
+CONTRACT_ADDRESS=0xdeployed_contract_address
+RPC_URL=https://sepolia.infura.io/v3/your_infura_key
+PINATA_API_KEY=your_pinata_key
+PINATA_SECRET=your_pinata_secret
+PORT=5000
 ```
 
-Frontend:
+⚠️ Never commit your `.env` file
 
+---
+
+### 3. Run the server
+
+npm run dev
 ```
-npm start
-```
+
+---
+
+## ⚠️ Important Notes
+
+* Backend wallet must have **Sepolia ETH** for gas fees
+* You can get test ETH from: https://sepoliafaucet.com
+* Make sure contract is deployed and address is correct
 
 ---
 
 ## 📌 Project Status
 
-🚧 Work in Progress
+🚧 Active Development
 
-* Smart contract deployed on Sepolia testnet
-* Frontend & backend running locally
+---
+
+## 🤝 Contribution
+
+This backend was developed as part of the ComplaintLedger blockchain project.
 
 ---
 
 ## 📄 License
 
-This project is developed for educational purposes.
+For educational purposes only.
